@@ -7,6 +7,7 @@
 #include "Components/InputComponent.h"
 #include "Components/LMAHealthComponent.h"
 #include "Components/LMAEnduranceComponent.h"
+#include "Components/LMAWeaponComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -37,6 +38,9 @@ ALMADefaultCharacter::ALMADefaultCharacter()
     
     // компонент выносливости
     EnduranceComponent = CreateDefaultSubobject<ULMAEnduranceComponent>("EnduranceComponent");
+    
+    // компонент оружия
+    WeaponComponent = CreateDefaultSubobject<ULMAWeaponComponent>("Weapon");
     
     // запрет поворота персонажа в сторону камеры
     bUseControllerRotationPitch = false;
@@ -82,13 +86,19 @@ void ALMADefaultCharacter::Tick(float DeltaTime)
 void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+    
+    // движение персонажа
     PlayerInputComponent->BindAxis("MoveForward", this, &ALMADefaultCharacter::MoveForward);
     PlayerInputComponent->BindAxis("MoveRight", this, &ALMADefaultCharacter::MoveRight);
+    PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ALMADefaultCharacter::StartSprint);
+    PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ALMADefaultCharacter::StopSprint);
+    
+    // стрельба
     PlayerInputComponent->BindAction("ScrollCameraUp", IE_Pressed, this, &ALMADefaultCharacter::ScrollCameraUp);
     PlayerInputComponent->BindAction("ScrollCameraDown", IE_Pressed, this, &ALMADefaultCharacter::ScrollCameraDown);
     
-    PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ALMADefaultCharacter::StartSprint);
-    PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ALMADefaultCharacter::StopSprint);
+    PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Fire);
+    PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Reload);
 }
 
 void ALMADefaultCharacter::MoveForward(float Value)

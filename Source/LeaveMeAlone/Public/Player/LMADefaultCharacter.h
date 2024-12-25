@@ -9,6 +9,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class ULMAHealthComponent;
+class ULMAWeaponComponent;
 class UAnimMontage;
 
 UCLASS()
@@ -41,6 +42,10 @@ protected:
     // компонент выносливости
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Endurance")
     ULMAEnduranceComponent* EnduranceComponent;
+    
+    // компонент оружия
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    ULMAWeaponComponent* WeaponComponent;
     
     // курсор и его материал
     UPROPERTY()
