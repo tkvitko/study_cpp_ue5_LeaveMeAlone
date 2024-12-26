@@ -62,7 +62,8 @@ void ALMADefaultCharacter::BeginPlay()
     OnHealthChanged(HealthComponent->GetHealth());
     
     // подписка на делегат о смерти персонажа
-    HealthComponent->OnDeath.AddUObject(this, &ALMADefaultCharacter::OnDeath);
+    HealthComponent->OnDeath.AddDynamic(this, &ALMADefaultCharacter::OnDeath);
+//    HealthComponent->OnDeath.AddUObject(this, &ALMADefaultCharacter::OnDeath);
     
     // подписка на делегат об изменении здоровья
     HealthComponent->OnHealthChanged.AddUObject(this, &ALMADefaultCharacter::OnHealthChanged);

@@ -7,7 +7,8 @@
 #include "LMAHealthComponent.generated.h"
 
 // декларация делегата о смерте персонажа
-DECLARE_MULTICAST_DELEGATE(FOnDeath)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
+//DECLARE_MULTICAST_DELEGATE(FOnDeath);
 
 // декларация делегата об изменении здоровья
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float);
@@ -33,7 +34,9 @@ public:
     bool IsHealthFull() const;
     
     // объявление задекларированных выше делегатов (о смерти и об изменнии здоровья)
+    UPROPERTY(BlueprintAssignable)
     FOnDeath OnDeath;
+    
     FOnHealthChanged OnHealthChanged;
 
 protected:
