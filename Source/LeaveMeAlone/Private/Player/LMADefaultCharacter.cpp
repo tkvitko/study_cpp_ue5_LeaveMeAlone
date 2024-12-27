@@ -131,16 +131,16 @@ void ALMADefaultCharacter::ScrollCameraDown()
 void ALMADefaultCharacter::StartSprint()
 {
     if (!EnduranceComponent->IsEnduranceEmpty()) {
-        UCharacterMovementComponent* CharacterMovement = GetCharacterMovement();
-        CharacterMovement->MaxWalkSpeed = SprintSpeed;
+        UCharacterMovementComponent* CurrentCharacterMovement = GetCharacterMovement();
+        CurrentCharacterMovement->MaxWalkSpeed = SprintSpeed;
         EnduranceComponent->EnableSpending();
     }
 }
 
 void ALMADefaultCharacter::StopSprint()
 {
-    UCharacterMovementComponent* CharacterMovement = GetCharacterMovement();
-    CharacterMovement->MaxWalkSpeed = NormalSpeed;
+    UCharacterMovementComponent* CurrentCharacterMovement = GetCharacterMovement();
+    CurrentCharacterMovement->MaxWalkSpeed = NormalSpeed;
     EnduranceComponent->EnableAccumulation();
 }
 
